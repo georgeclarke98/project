@@ -1,0 +1,5 @@
+June 21st 1948
+
+World's first working program run on an electronic stored-program computer, the Manchester Baby
+
+The Manchester Baby, also known as the Small-Scale Experimental Machine (SSEM), was the world's first electronic stored-program computer. It was built at the University of Manchester, UK, by Frederic C. Williams, Tom Kilburn, and Geoff Tootill, and ran its first program. 

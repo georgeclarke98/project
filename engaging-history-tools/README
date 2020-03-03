@@ -1,0 +1,52 @@
+The goal of this project is to produce a user friendly set of tools for producing engaging online history.
+Try to produce a set of sites and apps working from the  “This Day In Labor History” corpus which:
+
+1) presents the corpus in electronic calendar form
+2) allows for the production of custom paper calendars derived from the corpus
+(e.g., as offered by https://www.myphotobook.co.uk/photo-calendar or https://www.timeanddate.com/calendar/create.html )
+3) presents the corpus in TimeMap form (fixing various usability issues)
+ 
+all while allowing fairly non technical people to contribute new articles and perspectives.
+ 
+Update project steps:
+
+1.cd /Users/jay/Desktop/callirhoe-master 
+2.git status
+3.git commit -a -m "tag"
+4.git push
+
+Users are allowed to generate their own calenders that the project provided ( in different themes)
+  
+The demo calendars
+ 
+$ python FirstDemo.py
+  
+The acts in labour history
+  
+$ python Actdemo.py
+  
+Labour history in 1900s
+  
+$ python 1900_demo.py
+  
+Labour history in 1800s
+  
+$ python 1800_demo.py
+
+Other usage:
+
+Generate calendars with specific date (historical events):
+
+calmagick 'background.jpg' --range=1:12/2018 --outdir=expore -j 2 --with-holidays=/Users/jay/Desktop/callirhoe-master/holidays/french_holidays.EN.dat 
+
+Add Text on images:
+
+convert *.jpg -gravity NorthEast -pointsize 72 -stroke '#000C' -strokewidth 4 -annotate +5+5 "text1\ntext2" output.jpg
+
+Stitching Images By ImageMagick:
+
+convert -append *1.jpg *2.jpg output.jpg
+
+Add qrcode to images
+
+convert calendar.jpg qrcode.png -gravity northeast -geometry +5+10 -composite output.jpg

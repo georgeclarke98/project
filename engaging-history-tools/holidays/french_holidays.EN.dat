@@ -1,0 +1,33 @@
+# type|DATE*span|footer|header|flags
+# type|DATE1-DATE2|footer|header|flags
+# type|DATE|footer|header|flags
+#
+# type:
+# d: event occurs annually fixed day/month: MMDD
+# d: event occurs monthly, fixed day: DD
+# d: fixed day/month/year combination (e.g. deadline, trip, etc.): YYYYMMDD
+# oe: Orthodox Easter-dependent holiday, annually
+# ge: Georgios' name day, Orthodox Easter dependent holiday, annually
+# ce: Catholic Easter holiday
+#
+# DATE*span and DATE1-DATE2 supported only for YYYYMMDD
+# flags = {off, multi}
+
+d|0125||March on Washington 1941|off
+d|0207||Gold Miners Strikes 1894|off
+d|0318||US Postal Strike 1970|off
+d|0412||Toledo Auto Strike 1934|off
+d|0509||Longshoremen strike 1934|off
+d|0606||Packard Strike 1943|off
+d|0706||Bisbee deportation guns 1917|off
+d|0823||Execution of Sacco and Vanzetti 1927|off
+d|0909||The Stono Rebellion 1739|off
+d|1010||Closing of Storyville 1917|off
+d|1111||the centralia massacre 1919|off
+d|1221||Emma Goldman Deported 1919|off
+
+#ce|-2||Good Friday|
+#ce|0||Easter|off
+#ce|1||Easter Monday|off
+#ce|39||Ascension|off
+#ce|50||Whit Monday|off
