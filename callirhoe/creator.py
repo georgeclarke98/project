@@ -18,13 +18,13 @@ def readCSV(month, filename, mode):
     """
     #get all the rows for the current month
     reader = csv.DictReader(open(filename))
-    rows = [row for row in reader if "/%02d/" % month in row["Date"]]
+    rows = [row for row in reader if "/%02d/" % month in row["Date"] and row["Media"] != ""]
 
     if mode == "manual":
         #display options for manual mode
-        count = 1
+        count = 0
         for row in rows:
-            print("\tOption " + str(count) + ":")
+            print("\tOption " + str(count + 1) + ":")
             print("\t\t" + row["Title"])
             count = count + 1
         #get the choice from the user
@@ -115,15 +115,15 @@ def createPDF(month, CalendarName):
     print("\tAdding to PDF\n")
     #combine all the months into one printable pdf file
     if month == 1:
-      os.system("convert HistoryCalendar/testCalender" + str(month) +
+        os.system("convert HistoryCalendar/testCalender" + str(month) +
                 ".jpg " + CalendarName + ".pdf")
     else:
-      os.system("convert " + CalendarName + ".pdf HistoryCalendar/testCalender" +
+        os.system("convert " + CalendarName + ".pdf HistoryCalendar/testCalender" +
                 str(month) + ".jpg " + CalendarName + ".pdf")
 
 def main_program():
-    CalendarName = sys.argv[1]
-    csvFile = sys.argv[2]
+    CalendarName = raw_input("What would you like to call your calendar?: ")
+    csvFile = sys.argv[1]
     background = "Resources/background.jpg"
 
     modeChoice = raw_input("Would you like to manually choose events? (y/n): ")
