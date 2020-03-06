@@ -110,15 +110,15 @@ def createPDF(month, CalendarName):
     print("\tCombining Dates and Event")
     os.system("convert -append Resources/outputWithText" + str(month) +
               ".jpg HistoryCalendar/HistoryCalendar" + str(month)
-              + ".jpg HistoryCalendar/testCalender" + str(month) + ".jpg")
+              + ".jpg HistoryCalendar/Calender" + str(month) + ".jpg")
 
     print("\tAdding to PDF\n")
     #combine all the months into one printable pdf file
     if month == 1:
-        os.system("convert HistoryCalendar/testCalender" + str(month) +
+        os.system("convert HistoryCalendar/Calender" + str(month) +
                 ".jpg " + CalendarName + ".pdf")
     else:
-        os.system("convert " + CalendarName + ".pdf HistoryCalendar/testCalender" +
+        os.system("convert " + CalendarName + ".pdf HistoryCalendar/Calender" +
                 str(month) + ".jpg " + CalendarName + ".pdf")
 
 def main_program():
@@ -141,6 +141,12 @@ def main_program():
       print("\tGathering Event photo and Text")
       monthInfo = readCSV(month, csvFile, mode)
       #retreive the info of a random event for the current month
+
+      writeHol = open("holidays/event.dat", "w")
+      date = monthInfo["Date"]
+      writeHol.write("d|%02d%s|Event Today||normal" % (month, date[0:2]))
+      writeHol.close()
+      #create the event as a holiday so that it displays on the Date
 
       print("\tCreating Calendar Dates")
       calmagick.main_program(background, month, True)

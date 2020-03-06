@@ -13,8 +13,8 @@
 # DATE*span and DATE1-DATE2 supported only for YYYYMMDD
 # flags = {off, multi}
 
-d|0101|New year's||off
-d|0501|Labour day||off
-d|1225|Christmas||off
-ce|0|Easter||off
-oe|0|Orthodox Easter||off
+d|0101||New year's|off
+d|0501||Labour day|off
+d|1225||Christmas|off
+ce|0||Easter|off
+oe|0||Orthodox Easter|off

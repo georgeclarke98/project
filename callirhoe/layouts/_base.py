@@ -42,7 +42,7 @@ def get_parser(layout_name):
                       "lies above or below the previously drawn month; this affects shadow casting, "
                       "since rendering is always performed in increasing z-order; specifying `auto' "
                       "selects increasing order if and only if sloppy boxes are enabled [%default]")
-    parser.add_option("--month-with-year", action="store_true", default=True,
+    parser.add_option("--month-with-year", action="store_true", default=False,
                       help="displays year together with month name, e.g. January 1980; suppresses year from footer line")
     parser.add_option("--long-daycells", action="store_const", const=0.0, dest="short_daycell_ratio",
                       help="force use of only long daycells")
@@ -105,7 +105,7 @@ class DayCell(object):
         valign = 0 if self.show_day_name else 2
         # draw day of month (number)
         draw_str(cr, text = str(day_of_month), rect = Rdom, scaling = -1, stroke_rgba = S.fg,
-                 align = (2,valign), font = S.font, measure = "88")
+                 align = (0,0), font = S.font, measure = "88")
         # draw name of day
         if self.show_day_name:
             draw_str(cr, text = L.day_name[day_of_week][0], rect = Rdow, scaling = -1, stroke_rgba = S.fg,
@@ -127,28 +127,30 @@ class DayCell(object):
         x, y, w, h = rect
         day_of_month, day_of_week = self.day
         draw_box(cr, rect, S.frame, S.bg, mm_to_dots(S.frame_thickness))
-        R1, Rhf = rect_hsplit(rect, *G.hf_hsplit)
+        R1, Rhf = rect_vsplit(rect, *G.hf_vsplit)
         if self.show_day_name:
             R = rect_rel_scale(R1, G.size[2], G.size[3])
             Rdom, Rdow = rect_hsplit(R, *G.mw_split)
         else:
-            Rdom = rect_rel_scale(R1, G.size[0], G.size[1])
+            Rdom = rect_rel_scale(R1, G.size[0], G.size[1], -0.9, -1)
         valign = 0 if self.show_day_name else 2
         # draw day of month (number)
         draw_str(cr, text = str(day_of_month), rect = Rdom, scaling = -1, stroke_rgba = S.fg,
-                 align = (2,valign), font = S.font, measure = "88")
+                 align = (0,0), font = S.font, measure = "88")
         # draw name of day
         if self.show_day_name:
             draw_str(cr, text = L.day_name[day_of_week], rect = Rdow, scaling = -1, stroke_rgba = S.fg,
                      align = (0,valign), font = S.font, measure = "M")
-        Rh, Rf = rect_vsplit(Rhf, *G.hf_vsplit)
+        Rh, Rf = rect_vsplit(R1, *G.hf_vsplit)
+        Rhol = rect_rel_scale(R1, 0.7, 0.5, 0.8, -1)
+        REvent = rect_rel_scale(Rhf, 0.7, 0.5, 0.8, 1)
         # draw header
         if self.header:
-            draw_str(cr, text = self.header, rect = Rh, scaling = -1, stroke_rgba = S.header, align = (1,2),
+            draw_str(cr, text = self.header, rect = Rhol, scaling = -1, stroke_rgba = (0,0,0), align = (1,0),
                  font = S.header_font)
         # draw footer
         if self.footer:
-            draw_str(cr, text = self.footer, rect = Rf, scaling = -1, stroke_rgba = S.footer, align = (1,2),
+            draw_str(cr, text = self.footer, rect = REvent, scaling = -1, stroke_rgba = (1,0,0), align = (1,1),
                  font = S.footer_font)
 
     def draw(self, cr, rect, short_thres):
@@ -183,8 +185,6 @@ class CalendarRenderer(object):
         self.holiday_provider = holiday_provider
         self.version_string = version_string
         self.options = options
-        # self.rows = numRows
-        # self.cols = numCols
 
     def _draw_month(self, cr, rect, month, year):
         """this method renders a calendar month, it B{should be overridden} in any subclass
@@ -213,21 +213,14 @@ class CalendarRenderer(object):
 
 #rows = 0
 #cols = 0
-    def render(self, numCols, numRows):
+    def render(self):
         """main calendar rendering routine"""
         S,G,L = self.Theme
-        # if self.options.fractal:
-        #     rows = cols = 2
-        # else:
-        #     rows, cols = self.options.rows, self.options.cols
+        if self.options.fractal:
+            rows = cols = 2
+        else:
+            rows, cols = self.options.rows, self.options.cols
 
-        #cols = rows = 1
-        #ensures that the months only take up 1 page
-
-        rows = numRows
-        cols = numCols
-        #allocates the number of rows and columns given from the
-        #main callirhoe script
 
         if self.options.symmetric:
             G.month.symmetric = True

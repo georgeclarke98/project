@@ -110,7 +110,7 @@ def _draw_day_cell(cr, rect, day, header, footer, theme, show_day_name, text_hei
     valign = 0 if show_day_name else 2
     # draw day of month (number)
     draw_str(cr, text = str(day_of_month), rect = Rleft, scaling = -1, stroke_rgba = ds.fg,
-             align = (1,valign), font = ds.font, measure = "88")
+             align = (0,0), font = ds.font, measure = "88")
     # draw name of day
     if show_day_name:
         draw_str(cr, text = L.day_name[day_of_week], rect = Rmiddle_bottom,

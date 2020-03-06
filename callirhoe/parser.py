@@ -25,7 +25,7 @@ def parseOwn():
         writer = csv.writer(f)
         writer.writerows(manchesterCorpus.get_all_values())
 
-def parseUsers(location, name):
+def parseUsersExcel(location, name):
     file = pandas.read_excel(location)
     print("Creating CSV file from spreadsheet")
     file.to_csv("Events/" + name + ".csv", index=None, header=True)
@@ -46,7 +46,7 @@ def main_program():
         location = input("Please enter the location the corpus:")
         #get the user to enter the url for their corpus
         name = input("Please choose a name for  your csv file: ")
-        parseUsers(location, name)
+        parseUsersExcel(location, name)
         #parse the own users excel spreadsheet
 
 if __name__ == "__main__":

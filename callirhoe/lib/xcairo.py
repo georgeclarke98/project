@@ -309,7 +309,7 @@ def draw_box(cr, rect, stroke_rgba = None, fill_rgba = None, stroke_width = 1.0,
         cr.set_line_width(stroke_width)
     cr.stroke()
 
-def draw_str(cr, text, rect, scaling = -1, stroke_rgba = None, align = (2,0), bbox = False,
+def draw_str(cr, text, rect, scaling = -1, stroke_rgba = None, align = (0,0), bbox = False,
              font = "Times", measure = None, shadow = None):
     """draw text
 

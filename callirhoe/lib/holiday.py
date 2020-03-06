@@ -136,6 +136,7 @@ class Holiday(object):
         for s in fs:
             if s == 'off': val |= Holiday.OFF
             elif s == 'multi': val |= Holiday.MULTI
+            elif s == 'normal': val = 0
             # allow for prefix abbrev.
             elif 'reminder'.startswith(s): val |= Holiday.REMINDER
         return val

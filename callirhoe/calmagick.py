@@ -61,6 +61,7 @@ def run_callirhoe(style, size, args, outfile):
                              '--month-with-year', '--short-daycell-ratio=1',
                              '--with-holidays=' + os.getcwd() + '/holidays/cs_manchester.dat',
                              '--with-holidays=' + os.getcwd() + '/holidays/generic_holidays.EN.dat',
+                             '--with-holidays=' + os.getcwd() + '/holidays/event.dat',
                              '--paper=-%d:-%d' % size] + args + [outfile])
 
 def _bound(x, lower, upper):
