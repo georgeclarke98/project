@@ -21,6 +21,8 @@ def readCSV(month, filename, mode):
     reader = csv.DictReader(open(filename))
     rows = [row for row in reader if "/%02d/" % month in row["Date"] and row["Media"] != ""]
 
+    writeHol = open("holidays/event.dat", "a")
+
     if mode == "manual":
         #display options for manual mode
         count = 0
@@ -37,10 +39,19 @@ def readCSV(month, filename, mode):
                   str(count) + " for this month: ")
             choiceNo = int(choice)
         #return the chosen event
+        date = rows[choiceNo-1]["Date"]
+        writeHol.write("d|%02d%s|Event Today||normal\n" % (month, date[0:2]))
+        writeHol.close()
+        #create the event as a holiday so that it displays on the Date
         return rows[choiceNo - 1]
     else:
+        row = random.choice(rows)
+        date = row["Date"]
+        writeHol.write("d|%02d%s|Event Today||normal\n" % (month, date[0:2]))
+        writeHol.close()
+        #create the event as a holiday so that it displays on the Date
         #return a random row from the month
-        return random.choice(rows)
+        return row
 
 def downloadImage(month, urlImage):
     """
@@ -75,23 +86,28 @@ def createTop(month, currentPhoto, currentText, currentQR, title):
         the qr code for the
     """
 
+    placement = month % 2
     #make the photo for the current month fit into a size suitable for
     #the calendar
-
     os.system("convert " + currentPhoto + " -resize 940x1000" +
              " Resources/resized" + str(month) + ".png")
 
     #combine the resized image with the background for the top
     os.system("convert Resources/background2.png Resources/resized" +
-              str(month) + ".png -gravity west -geometry +20+25 " +
+              str(month) + ".png -gravity west -geometry +" + str(20+(placement*940)) + "+25 " +
               "-composite Resources/outPhoto" + str(month) + ".jpg")
+
+    if placement == 1:
+        placement = 0
+    else:
+        placement = 1
 
     #use the text to add it to the photo
     os.system("convert Resources/outPhoto" + str(month) +
               ".jpg -gravity west -pointsize 40 -size 900x " +
               "caption:@" + currentText + " Resources/outputtext" + str(month) + ".jpg")
     os.system("convert Resources/outputtext" + str(month) + "-0.jpg Resources/outputtext" +
-              str(month) + "-1.jpg -gravity northwest -geometry +980+150" +
+              str(month) + "-1.jpg -gravity northwest -geometry +" + str(20+(placement*960)) + "+150" +
               " -composite Resources/outputWithText" + str(month) + ".jpg")
 
     #Add the title to the top
@@ -99,12 +115,16 @@ def createTop(month, currentPhoto, currentText, currentQR, title):
               " 60 -size 1500x60 -fill purple1 -stroke purple1 -gravity North -draw " +
               "\"text 0,10 '"+ title + "'\" Resources/outputWithText" + str(month) + ".jpg")
 
-    #add the qr code to the calendar
+    if placement == 1:
+        placement = 0
+    else:
+        placement = 1
 
+    #add the qr code to the calendar
     os.system("convert " + currentQR + " -resize 150x150 " + currentQR)
     os.system("convert Resources/outputWithText" + str(month) + ".jpg " +
-              currentQR + " -gravity northeast -geometry -5-5 -composite " +
-              "Resources/outputWithText" + str(month) + ".jpg")
+    currentQR + " -gravity northeast -geometry +" + str(-5+(1780*placement)) + "-5 -composite " +
+    "Resources/outputWithText" + str(month) + ".jpg")
 
 def createPDF(CalendarName):
     """
@@ -134,12 +154,6 @@ def createCal(month, monthInfo, background, CalendarName, CalendarTitle):
         Creates the actual calendar
     """
     print("\tCreating Calendar components for month " + str(month))
-
-    writeHol = open("holidays/event.dat", "w")
-    date = monthInfo[month - 1]["Date"]
-    writeHol.write("d|%02d%s|Event Today||normal" % (month, date[0:2]))
-    writeHol.close()
-    #create the event as a holiday so that it displays on the Date
 
     calmagick.main_program(background, month, True)
     #create the calendar of the current month
@@ -205,6 +219,7 @@ def main_program():
 
     createPDF(CalendarName)
     #Create the pdf from the indicudual components
+    os.system("rm -r holidays/event.dat")
 
 if __name__ == "__main__":
     try:

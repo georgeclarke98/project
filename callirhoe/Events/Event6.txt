@@ -1,5 +1,5 @@
-Inaugural meeting of the national Trades Union Congress held at the Mechanics' Institute
+World's first working program run on an electronic stored-program computer, the Manchester Baby
 
-06/06/1868
+21/06/1948
 
-The Trades Union Congress (TUC) is a national trade union centre, a federation of trade unions in England and Wales, representing the majority of trade unions. There are fifty affiliated unions, with a total of about 5.6 million members.
+The Manchester Baby, also known as the Small-Scale Experimental Machine (SSEM), was the world's first electronic stored-program computer. It was built at the University of Manchester, UK, by Frederic C. Williams, Tom Kilburn, and Geoff Tootill, and ran its first program. 
