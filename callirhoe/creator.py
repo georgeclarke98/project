@@ -11,6 +11,8 @@ import random
 import time
 import urllib
 import multiprocessing as mp
+import argparse
+import gooey
 
 def readCSV(month, filename, mode):
     """
@@ -21,7 +23,7 @@ def readCSV(month, filename, mode):
     reader = csv.DictReader(open(filename))
     rows = [row for row in reader if "/%02d/" % month in row["Date"] and row["Media"] != ""]
 
-    writeHol = open("holidays/event.dat", "a")
+    writeHol = open("holidays/event.dat", "wb")
 
     if mode == "manual":
         #display options for manual mode
@@ -183,6 +185,7 @@ def createCal(month, monthInfo, background, CalendarName, CalendarTitle):
 
     return True
 
+
 def main_program():
     CalendarName = raw_input("What would you like to call your calendar? " +
                    ("(Please ensure there are no spaces in the name e.g TestCalendar): "))
@@ -194,8 +197,17 @@ def main_program():
     else:
         CalendarTitle = "The History Of Manchester"
     #Ask for thre name of the calendar and the title
-    csvFile = sys.argv[1]
-    background = "Resources/background.jpg"
+    csvFile = raw_input("Please enter the location of your cvs file: ")
+
+    #Option of choosing own background, so with a border etc.
+    backgroundChoice = raw_input("Would you like to use your own background for the top? (y/n): ")
+    while backgroundChoice != 'y' and backgroundChoice != 'n':
+        backgroundChoice = raw_input("Please answer 'y' or 'n': ")
+    if backgroundChoice == 'y':
+        print("Reminder: The image must be of size 1920x1080!")
+        background = raw_input("Please enter the location of the image: ")
+    else:
+        background = "Resources/background.jpg"
 
     modeChoice = raw_input("Would you like to manually choose events? (y/n): ")
     while modeChoice != "y" and modeChoice != "n":
@@ -219,7 +231,6 @@ def main_program():
 
     createPDF(CalendarName)
     #Create the pdf from the indicudual components
-    os.system("rm -r holidays/event.dat")
 
 if __name__ == "__main__":
     try:
