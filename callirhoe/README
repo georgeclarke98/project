@@ -2,4 +2,29 @@ Third year project, an engaging history tool, a command line calendar creator fo
 
 Requirements:
 
-Non python instal
+Non python installations (using brew on MacOS):
+    brew install imagemagick
+    brew install ghostscript
+    
+To install callirhoe and calmagick:
+    in callirhoe folder run:
+      make all
+      (if callirhoe and calmagick exist run rm callirhoe calmagick)
+      
+The parser (parser.py) collects the data from the self made corpus or turns the users excel spreadsheet into a csv file. This runs in python 3 to set up in a python 3 environment (recommended anaconda):
+    pip install -r requirementsParser.txt 
+    python parser.py 
+    
+To set up in an environment where python 2 is present:
+    pip3 install -r requrementsParser.txt
+    python3 parser.py
+
+The creator.py and creatorGUI.py both run in python 2 (sadly) as callirhoe and calmagick were made for python 2. To set these up in a python 2 environment:
+    pip install -r requirementsCreator.txt
+    python creator.py
+    python creatorGUI.py
+    
+The creatorGUI.py uses a nice interface to create the calendars and the creator.py uses the command line
+
+A fully packaged version of all of these programs are on the way! 
+So a simple .exe file will soon replace using the command line.
