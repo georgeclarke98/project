@@ -85,8 +85,10 @@ def readCSV(filename, mode, category):
                     reader = csv.DictReader(open(filename))
                     rows = [row for row in reader if "/%02d/" % month in row["Date"] and row["Media"] != ""]
                     #Choose all possible ones in the month if theres none for that category in that month
-            events.append(random.choice(rows))
+
+            row = random.choice(rows)
             date = row["Date"]
+            events.append(row)
             writeHol.write("d|%02d%s|Event Today||normal\n" % (month, date[0:2]))
             #create the event as a holiday so that it displays on the Date
             #return a random row from the month
@@ -130,7 +132,7 @@ def createTop(month, currentPhoto, currentText, currentQR, title, background, fo
     placement = month % 2
     #make the photo for the current month fit into a size suitable for
     #the calendar
-    os.system("convert " + currentPhoto + " -resize 940x1000" +
+    os.system("convert " + currentPhoto + " -resize 940x1000 -background transparent" +
              " Resources/resized" + str(month) + ".png")
 
     #combine the resized image with the background for the top
@@ -153,7 +155,7 @@ def createTop(month, currentPhoto, currentText, currentQR, title, background, fo
 
     #Add the title to the top
     os.system("convert Resources/outputWithText" + str(month) + ".jpg -font '" + font + "' -pointsize" +
-              " 60 -size 1500x60 -fill purple1 -stroke purple1 -gravity North -draw " +
+              " 60 -size 1500x60 -background transparent -fill purple1 -stroke purple1 -gravity North -draw " +
               "\"text 0,10 '"+ title + "'\" Resources/outputWithText" + str(month) + ".jpg")
 
     if placement == 1:
