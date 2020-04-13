@@ -1,12 +1,13 @@
 import lib
 import csv
-import pandas
 from gooey import Gooey, GooeyParser
+
 
 def title_choices(month):
     reader = csv.DictReader(open("current.csv"))
     rows = [row["Title"] for row in reader if "/%02d/" % month in row["Date"] and row["Media"] != ""]
     return rows
+
 
 def get_parser():
     """
@@ -14,7 +15,7 @@ def get_parser():
     """
 
     parser = GooeyParser(description="Event selector for the calendar creator")
-    #create the parser
+    # create the parser
     parser.add_argument("January", widget='Dropdown',
                         choices=title_choices(1),
                         help="Choose the event for January")
@@ -53,6 +54,7 @@ def get_parser():
                         help="Choose the event for December")
     return parser
 
+
 @Gooey(required_cols=1)
 def main_program():
     parser = get_parser()
@@ -62,8 +64,8 @@ def main_program():
     reader = csv.DictReader(open("current.csv"))
     writer = csv.DictWriter(open("eventsSelected.csv", "w"), fieldnames=reader.fieldnames, extrasaction='ignore')
     writer.writeheader()
-    #create the writer and write the headfings 
-    for month in range(1,13):
+    # create the writer and write the headings
+    for month in range(1, 13):
         reader = csv.DictReader(open("current.csv"))
         rows = [row for row in reader]
 
@@ -105,8 +107,9 @@ def main_program():
             writer.writerow(current[0])
         else:
             print("Month out of range ")
-        #add the event for each month to the events list
+        # add the event for each month to the events list
     print("\n\n\n\n\nPlease Close This Window!")
+
 
 if __name__ == "__main__":
     try:
