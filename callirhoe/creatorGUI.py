@@ -103,8 +103,9 @@ def downloadImage(month, urlImage):
     """
 
     #gets the image content from the url
-    header = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36'}
-    image = requests.get(urlImage, header)
+    header = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36','Referer':urlImage}
+    session = requests.Session()
+    image = session.get(urlImage, headers=header)
     #create a file and save the contents of the image to it
     file = open("Events/Event" + str(month) + ".jpg", "wb")
     file.write(image.content)
